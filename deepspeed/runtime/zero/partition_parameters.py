@@ -1152,8 +1152,9 @@ class Init(InsertPostInitMethodToModuleSubClasses):
                     partition_sz = sum(p.ds_tensor.ds_numel * p.ds_secondary_tensor_num_of_groups for p in params)
 
                 flat_tensor = torch.empty(partition_sz * world_size,
-                                          dtype=get_only_unique_item(p.ds_tensor.dtype
-                                                                     for p in params) if not quantize else torch.int8,
+                                          dtype=torch.bfloat16,
+                                          # dtype=get_only_unique_item(p.ds_tensor.dtype
+                                                                     # for p in params) if not quantize else torch.int8,
                                           device=get_accelerator().current_device_name(),
                                           requires_grad=False)
                 if not quantize:
